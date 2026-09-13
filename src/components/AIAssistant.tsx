@@ -48,8 +48,7 @@ export const AIAssistant: React.FC = () => {
 
   // Initialize API Key from env or localStorage
   useEffect(() => {
-    const metaEnv = (import.meta as unknown as { env?: Record<string, string> }).env;
-    const envKey = (process.env.GEMINI_API_KEY as string) || (metaEnv?.VITE_GEMINI_API_KEY as string) || '';
+    const envKey = import.meta.env.VITE_GEMINI_API_KEY || (typeof process !== 'undefined' && process.env?.GEMINI_API_KEY) || '';
     const storedKey = localStorage.getItem('GEMINI_API_KEY') || '';
     const finalKey = storedKey || envKey;
     setActiveKey(finalKey);
