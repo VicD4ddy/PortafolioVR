@@ -39,18 +39,21 @@ export const Modals: React.FC<ModalsProps> = ({
       {activeProject && (
         <div
           id="project-case-study-modal"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
           role="dialog"
           aria-modal="true"
         >
           <div
-            className="bg-brand-card border border-brand-border w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl shadow-2xl p-6 sm:p-8 relative"
+            className="bg-brand-card border-t sm:border border-brand-border w-full max-w-2xl max-h-[88vh] sm:max-h-[90vh] overflow-y-auto rounded-t-2xl sm:rounded-xl shadow-2xl p-6 sm:p-8 relative safe-bottom"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Mobile Bottom Sheet Grab Indicator */}
+            <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-4 sm:hidden" />
+
             <button
               id="close-project-modal"
               onClick={onCloseProject}
-              className="absolute top-6 right-6 text-brand-muted hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none cursor-pointer"
+              className="absolute top-5 right-5 sm:top-6 sm:right-6 text-brand-muted hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none cursor-pointer"
               aria-label="Cerrar modal"
             >
               <X className="w-5 h-5" />
@@ -153,18 +156,21 @@ export const Modals: React.FC<ModalsProps> = ({
       {activeArticle && (
         <div
           id="article-reader-modal"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
           role="dialog"
           aria-modal="true"
         >
           <div
-            className="bg-brand-card border border-brand-border w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl shadow-2xl p-6 sm:p-8 relative"
+            className="bg-brand-card border-t sm:border border-brand-border w-full max-w-2xl max-h-[88vh] sm:max-h-[90vh] overflow-y-auto rounded-t-2xl sm:rounded-xl shadow-2xl p-6 sm:p-8 relative safe-bottom"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Mobile Bottom Sheet Grab Indicator */}
+            <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-4 sm:hidden" />
+
             <button
               id="close-article-modal"
               onClick={onCloseArticle}
-              className="absolute top-6 right-6 text-brand-muted hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none cursor-pointer"
+              className="absolute top-5 right-5 sm:top-6 sm:right-6 text-brand-muted hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none cursor-pointer"
               aria-label="Cerrar modal"
             >
               <X className="w-5 h-5" />
@@ -206,18 +212,21 @@ export const Modals: React.FC<ModalsProps> = ({
       {storyOpen && (
         <div
           id="story-modal"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
           role="dialog"
           aria-modal="true"
         >
           <div
-            className="bg-brand-card border border-brand-border w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl shadow-2xl p-6 sm:p-8 relative"
+            className="bg-brand-card border-t sm:border border-brand-border w-full max-w-2xl max-h-[88vh] sm:max-h-[90vh] overflow-y-auto rounded-t-2xl sm:rounded-xl shadow-2xl p-6 sm:p-8 relative safe-bottom"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Mobile Bottom Sheet Grab Indicator */}
+            <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-4 sm:hidden" />
+
             <button
               id="close-story-modal"
               onClick={onCloseStory}
-              className="absolute top-6 right-6 text-brand-muted hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none cursor-pointer"
+              className="absolute top-5 right-5 sm:top-6 sm:right-6 text-brand-muted hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none cursor-pointer"
               aria-label="Cerrar modal"
             >
               <X className="w-5 h-5" />

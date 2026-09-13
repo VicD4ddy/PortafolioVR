@@ -8,6 +8,7 @@ import { BlogAndTestimonial } from './components/BlogAndTestimonial';
 import { EstimateContact } from './components/EstimateContact';
 import { Modals } from './components/Modals';
 import { AIAssistant } from './components/AIAssistant';
+import { MobileQuickDock } from './components/MobileQuickDock';
 import { Project, Article } from './types';
 
 export default function App() {
@@ -68,6 +69,9 @@ export default function App() {
 
       {/* Interactive In-Portfolio AI Agent */}
       <AIAssistant />
+
+      {/* Mobile Floating Thumb Dock (<768px) */}
+      <MobileQuickDock />
     </div>
   );
 }

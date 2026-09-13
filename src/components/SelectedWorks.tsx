@@ -91,13 +91,13 @@ export const SelectedWorks: React.FC<SelectedWorksProps> = ({ onProjectClick }) 
               Explora soluciones construidas con arquitecturas de alta velocidad en React 19, TypeScript, bots en Python y despliegues en Vercel.
             </p>
             {/* Filter pills */}
-            <div className="flex flex-wrap gap-2 pt-1">
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar pt-1 -mx-2 px-2 md:mx-0 md:px-0 md:flex-wrap">
               {tabConfig.map((tab) => (
                 <motion.button
                   key={tab.id}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`text-xs px-3.5 py-1.5 rounded-full transition-all cursor-pointer font-medium ${
+                  className={`text-xs px-3.5 py-1.5 rounded-full transition-all cursor-pointer font-medium whitespace-nowrap shrink-0 ${
                     activeTab === tab.id
                       ? 'bg-brand-yellow text-brand-dark font-bold shadow-md shadow-brand-yellow/20'
                       : 'bg-brand-card text-brand-muted hover:text-white border border-brand-border'

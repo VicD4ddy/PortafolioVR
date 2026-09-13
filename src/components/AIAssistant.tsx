@@ -54,6 +54,13 @@ export const AIAssistant: React.FC = () => {
     setActiveKey(finalKey);
   }, []);
 
+  // Allow triggering AI from mobile dock, header, or custom events
+  useEffect(() => {
+    const handleOpen = () => setIsOpen(true);
+    window.addEventListener('open-ai-assistant', handleOpen);
+    return () => window.removeEventListener('open-ai-assistant', handleOpen);
+  }, []);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -223,7 +230,7 @@ Instrucciones: Responde de forma cálida, profesional, concisa y persuasiva en e
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-4 right-3 sm:bottom-6 sm:right-6 z-50 safe-bottom-margin">
       <AnimatePresence mode="wait">
         {/* Floating Action Button / Launcher */}
         {!isOpen && (
@@ -235,12 +242,12 @@ Instrucciones: Responde de forma cálida, profesional, concisa y persuasiva en e
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(true)}
-            className="group flex items-center gap-3 bg-brand-surface/95 hover:bg-brand-card text-white p-2 sm:px-4 sm:py-2.5 rounded-full shadow-2xl shadow-black/80 font-semibold text-xs cursor-pointer border border-brand-yellow/50 hover:border-brand-yellow"
+            className="group hidden sm:flex items-center gap-2.5 sm:gap-3 bg-brand-surface/95 hover:bg-brand-card text-white p-2 sm:px-4 sm:py-2.5 rounded-full shadow-2xl shadow-black/80 font-semibold text-xs cursor-pointer border border-brand-yellow/50 hover:border-brand-yellow"
             aria-label="Abrir asistente de IA de Víctor Reyes"
           >
             {/* Avatar with live pulse dot */}
             <div className="relative">
-              <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-brand-yellow shadow-md shadow-brand-yellow/30">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border-2 border-brand-yellow shadow-md shadow-brand-yellow/30">
                 <img
                   src={HERO_IMAGE}
                   alt={USER_INFO.name}
@@ -270,7 +277,7 @@ Instrucciones: Responde de forma cálida, profesional, concisa y persuasiva en e
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.92, y: 20 }}
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="w-[94vw] sm:w-[420px] max-h-[580px] h-[580px] bg-brand-card/95 backdrop-blur-2xl border border-brand-yellow/40 rounded-2xl shadow-2xl shadow-black/90 flex flex-col overflow-hidden relative"
+            className="w-[calc(100vw-1.5rem)] sm:w-[420px] max-h-[82vh] sm:max-h-[580px] h-[82vh] sm:h-[580px] bg-brand-card/95 backdrop-blur-2xl border border-brand-yellow/40 rounded-2xl shadow-2xl shadow-black/90 flex flex-col overflow-hidden relative"
           >
           {/* Header */}
           <div className="p-4 bg-brand-surface border-b border-brand-border flex items-center justify-between">
@@ -469,7 +476,7 @@ Instrucciones: Responde de forma cálida, profesional, concisa y persuasiva en e
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Pregunta sobre proyectos, stack o cotización..."
-              className="flex-1 bg-brand-card text-white text-xs px-3.5 py-2.5 rounded-lg border border-brand-border focus:border-brand-yellow focus:outline-none placeholder:text-brand-muted transition-colors"
+              className="flex-1 bg-brand-card text-white text-base sm:text-xs px-3.5 py-2.5 rounded-lg border border-brand-border focus:border-brand-yellow focus:outline-none placeholder:text-brand-muted transition-colors"
             />
             <button
               type="submit"

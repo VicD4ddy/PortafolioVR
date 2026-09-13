@@ -39,6 +39,36 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #F5B027;
   }
+
+  /* Mobile Touch Ergonomics & Anti-Lag */
+  button, a, input, select, textarea {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Prevent auto-zoom on iOS mobile while preserving desktop size */
+  @media (max-width: 640px) {
+    input, textarea, select {
+      font-size: 16px !important;
+    }
+  }
+}
+
+/* Hide scrollbars for clean touch swipe horizontal rails */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Safe area padding for iPhones & modern Android devices */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.safe-bottom-margin {
+  margin-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 /* Custom visual polish */
