@@ -10,6 +10,10 @@ export interface Project {
   role?: string;
   metrics?: { label: string; value: string }[];
   accentColor?: string;
+  githubUrl?: string;
+  demoUrl?: string;
+  featured?: boolean;
+  categoryKey?: 'ecommerce' | 'saas' | 'automation' | 'web';
 }
 
 export interface Article {

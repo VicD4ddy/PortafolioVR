@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { X, CheckCircle2 } from 'lucide-react';
+import { X, CheckCircle2, Github, ExternalLink, Sparkles } from 'lucide-react';
 import { Project, Article } from '../types';
-import { STORY_CONTENT } from '../data/portfolioData';
+import { STORY_CONTENT, USER_INFO } from '../data/portfolioData';
 
 interface ModalsProps {
   activeProject: Project | null;
@@ -39,19 +39,19 @@ export const Modals: React.FC<ModalsProps> = ({
       {activeProject && (
         <div
           id="project-case-study-modal"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
           role="dialog"
           aria-modal="true"
         >
           <div
-            className="bg-brand-card border border-brand-border w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-lg shadow-2xl p-6 sm:p-8 relative"
+            className="bg-brand-card border border-brand-border w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl shadow-2xl p-6 sm:p-8 relative"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               id="close-project-modal"
               onClick={onCloseProject}
-              className="absolute top-6 right-6 text-brand-muted hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none"
-              aria-label="Close modal"
+              className="absolute top-6 right-6 text-brand-muted hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none cursor-pointer"
+              aria-label="Cerrar modal"
             >
               <X className="w-5 h-5" />
             </button>
@@ -59,7 +59,7 @@ export const Modals: React.FC<ModalsProps> = ({
             <span className="text-xs font-bold text-brand-yellow uppercase tracking-widest">
               {activeProject.category}
             </span>
-            <h2 className="text-3xl font-extrabold text-white mt-1 mb-2">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-1 mb-2">
               {activeProject.title}
             </h2>
             <p className="text-sm text-brand-muted mb-6">
@@ -67,30 +67,30 @@ export const Modals: React.FC<ModalsProps> = ({
             </p>
 
             {/* Quick Meta */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 p-4 bg-brand-surface rounded border border-brand-border mb-6 text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 p-4 bg-brand-surface rounded-lg border border-brand-border mb-6 text-xs">
               <div>
-                <span className="text-brand-muted block">Client</span>
-                <span className="text-white font-semibold">{activeProject.client || 'Confidential'}</span>
+                <span className="text-brand-muted block">Cliente / Contexto</span>
+                <span className="text-white font-semibold">{activeProject.client || 'Confidencial'}</span>
               </div>
               <div>
-                <span className="text-brand-muted block">Year</span>
-                <span className="text-white font-semibold">{activeProject.year || '2024'}</span>
+                <span className="text-brand-muted block">Año</span>
+                <span className="text-white font-semibold">{activeProject.year || '2026'}</span>
               </div>
               <div>
-                <span className="text-brand-muted block">Role</span>
-                <span className="text-white font-semibold">{activeProject.role || 'Design Lead'}</span>
+                <span className="text-brand-muted block">Rol</span>
+                <span className="text-white font-semibold">{activeProject.role || 'Full Stack Engineer'}</span>
               </div>
             </div>
 
             {/* Metrics */}
             {activeProject.metrics && (
               <div className="mb-6">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-brand-muted mb-3">
-                  Key Results &amp; Impact
+                <h3 className="text-xs font-bold uppercase tracking-wider text-brand-muted mb-3 font-mono">
+                  Métricas de Rendimiento &amp; Impacto
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {activeProject.metrics.map((m, idx) => (
-                    <div key={idx} className="bg-brand-surface p-3 rounded border border-brand-border">
+                    <div key={idx} className="bg-brand-surface p-3 rounded-lg border border-brand-border">
                       <span className="text-lg font-bold text-brand-yellow block">{m.value}</span>
                       <span className="text-[11px] text-brand-muted leading-tight">{m.label}</span>
                     </div>
@@ -100,23 +100,50 @@ export const Modals: React.FC<ModalsProps> = ({
             )}
 
             {/* Description */}
-            <div className="space-y-4 text-sm text-brand-muted leading-relaxed mb-6">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-white">
-                Project Overview
+            <div className="space-y-3 text-sm text-brand-muted leading-relaxed mb-6">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-white font-mono">
+                Detalles del Proyecto
               </h3>
               <p>{activeProject.longDescription || activeProject.description}</p>
             </div>
 
-            {/* Tags */}
-            <div className="flex flex-wrap gap-2 pt-4 border-t border-brand-border">
-              {activeProject.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs bg-brand-surface text-brand-muted px-2.5 py-1 rounded border border-brand-border"
-                >
-                  {tag}
-                </span>
-              ))}
+            {/* Tags & Action Buttons */}
+            <div className="pt-4 border-t border-brand-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex flex-wrap gap-1.5">
+                {activeProject.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-xs bg-brand-surface text-brand-muted px-2.5 py-1 rounded-md border border-brand-border"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                {activeProject.demoUrl && (
+                  <a
+                    href={activeProject.demoUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-400 text-brand-dark font-bold text-xs px-3.5 py-2 rounded-md transition-all shadow-md shadow-emerald-500/20 cursor-pointer"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    <span>Demo en Vivo (Vercel)</span>
+                  </a>
+                )}
+                {activeProject.githubUrl && (
+                  <a
+                    href={activeProject.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 bg-brand-yellow hover:bg-brand-yellow-hover text-brand-dark font-bold text-xs px-3.5 py-2 rounded-md transition-all shadow-md shadow-brand-yellow/20 cursor-pointer"
+                  >
+                    <Github className="w-4 h-4" />
+                    <span>Ver en GitHub</span>
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -126,24 +153,24 @@ export const Modals: React.FC<ModalsProps> = ({
       {activeArticle && (
         <div
           id="article-reader-modal"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
           role="dialog"
           aria-modal="true"
         >
           <div
-            className="bg-brand-card border border-brand-border w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-lg shadow-2xl p-6 sm:p-8 relative"
+            className="bg-brand-card border border-brand-border w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl shadow-2xl p-6 sm:p-8 relative"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               id="close-article-modal"
               onClick={onCloseArticle}
-              className="absolute top-6 right-6 text-brand-muted hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none"
-              aria-label="Close modal"
+              className="absolute top-6 right-6 text-brand-muted hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none cursor-pointer"
+              aria-label="Cerrar modal"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <div className="flex items-center gap-3 text-xs text-brand-muted mb-2">
+            <div className="flex items-center gap-3 text-xs text-brand-muted mb-2 font-mono">
               <span className="text-brand-yellow font-semibold">{activeArticle.category}</span>
               <span>•</span>
               <span>{activeArticle.date}</span>
@@ -165,7 +192,7 @@ export const Modals: React.FC<ModalsProps> = ({
               {activeArticle.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs bg-brand-surface text-brand-muted px-2.5 py-1 rounded border border-brand-border"
+                  className="text-xs bg-brand-surface text-brand-muted px-2.5 py-1 rounded-md border border-brand-border"
                 >
                   #{tag}
                 </span>
@@ -179,49 +206,49 @@ export const Modals: React.FC<ModalsProps> = ({
       {storyOpen && (
         <div
           id="story-modal"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
           role="dialog"
           aria-modal="true"
         >
           <div
-            className="bg-brand-card border border-brand-border w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-lg shadow-2xl p-6 sm:p-8 relative"
+            className="bg-brand-card border border-brand-border w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl shadow-2xl p-6 sm:p-8 relative"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               id="close-story-modal"
               onClick={onCloseStory}
-              className="absolute top-6 right-6 text-brand-muted hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none"
-              aria-label="Close modal"
+              className="absolute top-6 right-6 text-brand-muted hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none cursor-pointer"
+              aria-label="Cerrar modal"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <span className="text-xs font-bold text-brand-yellow uppercase tracking-widest">
-              Background &amp; Philosophy
+            <span className="text-xs font-bold text-brand-yellow uppercase tracking-widest font-mono">
+              Trayectoria &amp; Filosofía de Trabajo
             </span>
-            <h2 className="text-3xl font-extrabold text-white mt-1 mb-2">
+            <h2 className="text-3xl font-extrabold text-white mt-1 mb-1">
               {STORY_CONTENT.title}
             </h2>
-            <p className="text-sm text-brand-muted mb-6">
+            <p className="text-xs text-brand-yellow font-mono mb-6">
               {STORY_CONTENT.subtitle}
             </p>
 
-            <p className="text-white text-base leading-relaxed mb-6 font-medium">
+            <p className="text-white text-sm sm:text-base leading-relaxed mb-6 font-medium">
               {STORY_CONTENT.intro}
             </p>
 
             {/* Milestones timeline */}
             <div className="mb-8 space-y-4">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-brand-muted mb-3">
-                Career Milestones
+              <h3 className="text-xs font-bold uppercase tracking-wider text-brand-muted mb-3 font-mono">
+                Hitos y Evolución Técnica
               </h3>
               <div className="space-y-3">
                 {STORY_CONTENT.milestones.map((m, idx) => (
                   <div
                     key={idx}
-                    className="p-3.5 bg-brand-surface rounded border border-brand-border flex items-start gap-4"
+                    className="p-3.5 bg-brand-surface rounded-lg border border-brand-border flex items-start gap-4"
                   >
-                    <span className="text-sm font-mono font-bold text-brand-yellow shrink-0 w-16">
+                    <span className="text-xs font-mono font-bold text-brand-yellow shrink-0 w-16 pt-0.5">
                       {m.year}
                     </span>
                     <div>
@@ -235,17 +262,30 @@ export const Modals: React.FC<ModalsProps> = ({
 
             {/* Core Capabilities */}
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-brand-muted mb-3">
-                Core Capabilities
+              <h3 className="text-xs font-bold uppercase tracking-wider text-brand-muted mb-3 font-mono">
+                Habilidades y Stack Principal
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-brand-muted">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-brand-muted">
                 {STORY_CONTENT.skills.map((s, idx) => (
-                  <div key={idx} className="flex items-center gap-2">
+                  <div key={idx} className="flex items-center gap-2 bg-brand-surface/60 p-2 rounded border border-white/5">
                     <CheckCircle2 className="w-4 h-4 text-brand-yellow shrink-0" />
-                    <span>{s}</span>
+                    <span className="text-white/90">{s}</span>
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* GitHub Profile Button */}
+            <div className="mt-8 pt-4 border-t border-brand-border flex justify-end">
+              <a
+                href={USER_INFO.github}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 text-xs font-semibold bg-white/5 hover:bg-brand-yellow hover:text-brand-dark text-white border border-brand-border px-4 py-2 rounded-lg transition-all"
+              >
+                <Github className="w-4 h-4" />
+                <span>Explorar todos los repositorios en GitHub →</span>
+              </a>
             </div>
           </div>
         </div>

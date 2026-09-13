@@ -1,4 +1,17 @@
 import React, { useState } from 'react';
+import {
+  Github,
+  ExternalLink,
+  ArrowUpRight,
+  Search,
+  ShoppingBag,
+  Sparkles,
+  Terminal,
+  Zap,
+  CheckCircle2,
+  Cpu
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { PROJECTS } from '../data/portfolioData';
 import { Project } from '../types';
 
@@ -6,250 +19,438 @@ interface SelectedWorksProps {
   onProjectClick: (project: Project) => void;
 }
 
+type TabCategory = 'all' | 'ecommerce' | 'saas' | 'automation' | 'web';
+
 export const SelectedWorks: React.FC<SelectedWorksProps> = ({ onProjectClick }) => {
-  const [activeTab, setActiveTab] = useState<'all' | 'product' | 'brand' | 'dev'>('all');
-  const [liveRequests, setLiveRequests] = useState(4.2);
-  const [liveLatency, setLiveLatency] = useState(12);
+  const [activeTab, setActiveTab] = useState<TabCategory>('all');
 
-  // Quick simulation effect for live dashboard interaction
-  const triggerPing = (e: React.MouseEvent) => {
+  // Interactive simulation state for Repuestos Sotomayor card
+  const [searchQuery] = useState('Frenos Toyota Corolla');
+  const [cartCount, setCartCount] = useState(3);
+
+  // Interactive simulation state for VicJobFinder card
+  const [botActive, setBotActive] = useState(true);
+  const [vacantesFound, setVacantesFound] = useState(10420);
+
+  // Featured 3 Projects specified by user
+  const sotomayorProject = PROJECTS.find((p) => p.id === 'ecommerce-sotomayor') || PROJECTS[0];
+  const vicJobProject = PROJECTS.find((p) => p.id === 'vic-job-finder') || PROJECTS[1];
+  const sealProProject = PROJECTS.find((p) => p.id === 'seal-pro-landing') || PROJECTS[2];
+
+  const handleSimulateBot = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setLiveLatency(Math.floor(10 + Math.random() * 5));
-    setLiveRequests((prev) => +(prev + 0.01).toFixed(2));
+    setBotActive(true);
+    setVacantesFound((prev) => prev + Math.floor(Math.random() * 15) + 3);
   };
-
-  const beServerProject = PROJECTS.find((p) => p.id === 'beserver') || PROJECTS[0];
-  const tumblerProject = PROJECTS.find((p) => p.id === 'energetic-tumbler') || PROJECTS[1];
 
   const filteredProjects = PROJECTS.filter((p) => {
     if (activeTab === 'all') return true;
-    if (activeTab === 'product') return p.category.includes('PRODUCT');
-    if (activeTab === 'brand') return p.category.includes('BRANDING');
-    if (activeTab === 'dev') return p.category.includes('FINTECH') || p.tags.includes('React');
-    return true;
+    return p.categoryKey === activeTab;
   });
+
+  const tabConfig: { id: TabCategory; label: string }[] = [
+    { id: 'all', label: `Todos (${PROJECTS.length})` },
+    { id: 'ecommerce', label: 'E-Commerce' },
+    { id: 'saas', label: 'Gestión & SaaS' },
+    { id: 'automation', label: 'Automatización & Python' },
+    { id: 'web', label: 'Web Apps & Landings' },
+  ];
 
   return (
     <section
       id="works"
-      className="py-24 bg-brand-dark border-b border-brand-border"
+      className="py-24 bg-brand-dark border-b border-brand-border relative"
       data-purpose="portfolio-showcase"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <div>
-            <span className="text-xs font-semibold uppercase tracking-widest text-brand-yellow block mb-3">
-              — Portfolio
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="text-xs font-semibold uppercase tracking-widest text-brand-yellow block mb-3 font-mono">
+              — Portafolio &amp; Repositorios Reales
             </span>
             <h2 className="text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
-              All Creative Works,<br />
-              Selected projects.
+              Sistemas en Producción,<br />
+              Código Verificado.
             </h2>
-          </div>
-          <div className="space-y-4">
-            <p className="text-brand-muted text-sm max-w-sm">
-              Explora algunos de los trabajos más recientes en productos digitales, sistemas SaaS de alto rendimiento y diseño de marca.
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="space-y-4"
+          >
+            <p className="text-brand-muted text-sm max-w-md">
+              Explora soluciones construidas con arquitecturas de alta velocidad en React 19, TypeScript, bots en Python y despliegues en Vercel.
             </p>
             {/* Filter pills */}
             <div className="flex flex-wrap gap-2 pt-1">
-              <button
-                onClick={() => setActiveTab('all')}
-                className={`text-xs px-3 py-1.5 rounded-full transition-all ${
-                  activeTab === 'all'
-                    ? 'bg-brand-yellow text-brand-dark font-semibold'
-                    : 'bg-brand-card text-brand-muted hover:text-white border border-brand-border'
-                }`}
-              >
-                All Selected
-              </button>
-              <button
-                onClick={() => setActiveTab('product')}
-                className={`text-xs px-3 py-1.5 rounded-full transition-all ${
-                  activeTab === 'product'
-                    ? 'bg-brand-yellow text-brand-dark font-semibold'
-                    : 'bg-brand-card text-brand-muted hover:text-white border border-brand-border'
-                }`}
-              >
-                Product Design
-              </button>
-              <button
-                onClick={() => setActiveTab('brand')}
-                className={`text-xs px-3 py-1.5 rounded-full transition-all ${
-                  activeTab === 'brand'
-                    ? 'bg-brand-yellow text-brand-dark font-semibold'
-                    : 'bg-brand-card text-brand-muted hover:text-white border border-brand-border'
-                }`}
-              >
-                Branding
-              </button>
-              <button
-                onClick={() => setActiveTab('dev')}
-                className={`text-xs px-3 py-1.5 rounded-full transition-all ${
-                  activeTab === 'dev'
-                    ? 'bg-brand-yellow text-brand-dark font-semibold'
-                    : 'bg-brand-card text-brand-muted hover:text-white border border-brand-border'
-                }`}
-              >
-                Engineering
-              </button>
+              {tabConfig.map((tab) => (
+                <motion.button
+                  key={tab.id}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`text-xs px-3.5 py-1.5 rounded-full transition-all cursor-pointer font-medium ${
+                    activeTab === tab.id
+                      ? 'bg-brand-yellow text-brand-dark font-bold shadow-md shadow-brand-yellow/20'
+                      : 'bg-brand-card text-brand-muted hover:text-white border border-brand-border'
+                  }`}
+                >
+                  {tab.label}
+                </motion.button>
+              ))}
             </div>
-          </div>
+          </motion.div>
         </div>
 
-        {/* Primary Screen Works Layout Grid (Exact match to provided screenshot) */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-          {/* Project 1: BeServer (7 cols) */}
-          <div
-            id="project-card-beserver"
-            onClick={() => onProjectClick(beServerProject)}
-            className="md:col-span-7 bg-brand-card border border-brand-border rounded-lg overflow-hidden group hover:border-brand-yellow/50 transition-all duration-300 cursor-pointer flex flex-col justify-between hover:shadow-2xl hover:shadow-black/50"
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => e.key === 'Enter' && onProjectClick(beServerProject)}
-          >
-            <div className="p-8 pb-4 flex justify-between items-start">
-              <div>
-                <span className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
-                  Branding, Product
-                </span>
-                <h3 className="text-2xl font-bold text-white mt-1 group-hover:text-brand-yellow transition-colors flex items-center gap-2">
-                  BeServer.
-                </h3>
-                <p className="text-xs text-brand-muted mt-1">
-                  Residential Proxy Server &amp; Control Dashboard
-                </p>
-              </div>
-              <span className="text-brand-muted text-sm group-hover:text-brand-yellow group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all">
-                ↗
+        {/* 🌟 3 Proyectos Destacados (Top Showcase) */}
+        {activeTab === 'all' && (
+          <div className="space-y-6 mb-12">
+            <div className="flex items-center gap-2 mb-2">
+              <Sparkles className="w-4 h-4 text-brand-yellow" />
+              <span className="text-xs uppercase tracking-wider font-mono text-brand-yellow font-bold">
+                Proyectos Insignia Destacados
               </span>
             </div>
 
-            {/* Mockup Graphic Area */}
-            <div className="p-6 pt-2">
-              <div className="bg-[#181a20] rounded-md p-5 border border-white/5 shadow-inner">
-                {/* Window top control dots */}
-                <div className="flex items-center justify-between mb-4">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              {/* Featured 1: Repuestos Sotomayor E-Commerce (7 cols) */}
+              <motion.div
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.35 }}
+                onClick={() => onProjectClick(sotomayorProject)}
+                className="lg:col-span-7 bg-brand-card border border-brand-border hover:border-brand-yellow/70 rounded-xl overflow-hidden group cursor-pointer flex flex-col justify-between hover:shadow-2xl hover:shadow-black/70 transition-colors"
+              >
+                <div className="p-7 pb-3 flex justify-between items-start">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[10px] bg-brand-yellow/15 text-brand-yellow border border-brand-yellow/30 px-2 py-0.5 rounded font-mono font-bold">
+                        DESTACADO
+                      </span>
+                      <span className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
+                        {sotomayorProject.category}
+                      </span>
+                    </div>
+                    <h3 className="text-2xl font-bold text-white group-hover:text-brand-yellow transition-colors">
+                      {sotomayorProject.title}
+                    </h3>
+                    <p className="text-xs text-brand-muted mt-1 max-w-lg leading-relaxed">
+                      {sotomayorProject.description}
+                    </p>
+                  </div>
+
                   <div className="flex items-center gap-2">
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
-                  </div>
-                  <button
-                    onClick={triggerPing}
-                    title="Click to ping test"
-                    className="text-[10px] text-brand-muted hover:text-brand-yellow border border-white/10 px-2 py-0.5 rounded transition-colors"
-                  >
-                    Ping Node
-                  </button>
-                </div>
-
-                <div className="space-y-3">
-                  {/* Status Banner */}
-                  <div className="h-8 bg-brand-card rounded w-3/4 flex items-center px-4 text-[11px] text-brand-muted gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    Proxy Pool Status: Active
-                  </div>
-
-                  {/* 3 Metric Cards */}
-                  <div className="grid grid-cols-3 gap-3">
-                    <div className="h-20 bg-brand-card rounded p-3 flex flex-col justify-between">
-                      <span className="text-[10px] text-brand-muted">Bandwidth</span>
-                      <span className="text-sm font-bold text-brand-yellow">1.84 TB</span>
-                    </div>
-
-                    <div className="h-20 bg-brand-card rounded p-3 flex flex-col justify-between">
-                      <span className="text-[10px] text-brand-muted">Requests</span>
-                      <span className="text-sm font-bold text-white">{liveRequests}M</span>
-                    </div>
-
-                    <div className="h-20 bg-brand-card rounded p-3 flex flex-col justify-between">
-                      <span className="text-[10px] text-brand-muted">Latency</span>
-                      <span className="text-sm font-bold text-emerald-400">{liveLatency}ms</span>
-                    </div>
+                    {sotomayorProject.githubUrl && (
+                      <a
+                        href={sotomayorProject.githubUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="p-2 rounded-full bg-white/5 border border-white/10 text-brand-muted hover:text-brand-yellow hover:border-brand-yellow/40 transition-colors"
+                        title="Ver repositorio en GitHub"
+                      >
+                        <Github className="w-4 h-4" />
+                      </a>
+                    )}
+                    <span className="text-brand-muted group-hover:text-brand-yellow group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all">
+                      <ArrowUpRight className="w-5 h-5" />
+                    </span>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
 
-          {/* Project 2: Energetic Tumbler (5 cols) */}
-          <div
-            id="project-card-tumbler"
-            onClick={() => onProjectClick(tumblerProject)}
-            className="md:col-span-5 bg-brand-card border border-brand-border rounded-lg overflow-hidden group hover:border-brand-yellow/50 transition-all duration-300 cursor-pointer flex flex-col justify-between hover:shadow-2xl hover:shadow-black/50"
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => e.key === 'Enter' && onProjectClick(tumblerProject)}
-          >
-            <div className="p-8 pb-4 flex justify-between items-start">
-              <div>
-                <span className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
-                  Product, E-commerce
-                </span>
-                <h3 className="text-2xl font-bold text-white mt-1 group-hover:text-brand-yellow transition-colors">
-                  Energetic Tumbler.
-                </h3>
-                <p className="text-xs text-brand-muted mt-1">
-                  Smart Thermal Hydration Product
-                </p>
-              </div>
-              <span className="text-brand-muted text-sm group-hover:text-brand-yellow group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all">
-                ↗
-              </span>
-            </div>
+                {/* Storefront Mockup Graphic */}
+                <div className="p-6 pt-2">
+                  <div className="bg-[#181a20] rounded-lg p-4 border border-white/5 shadow-inner space-y-3">
+                    <div className="flex items-center justify-between pb-2.5 border-b border-white/5">
+                      <div className="flex items-center gap-2 text-xs text-brand-muted">
+                        <Search className="w-3.5 h-3.5 text-brand-yellow" />
+                        <span className="font-mono text-[11px] text-white/90">{searchQuery}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="flex items-center gap-1 text-[11px] bg-brand-yellow/10 border border-brand-yellow/30 text-brand-yellow px-2 py-0.5 rounded-full">
+                          <ShoppingBag className="w-3 h-3" />
+                          <span>{cartCount} items</span>
+                        </span>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setCartCount((c) => c + 1);
+                          }}
+                          className="text-[10px] bg-white/5 hover:bg-brand-yellow hover:text-brand-dark px-2 py-0.5 rounded border border-white/10 transition-colors cursor-pointer"
+                        >
+                          + Añadir
+                        </button>
+                      </div>
+                    </div>
 
-            {/* Mockup Graphic Area */}
-            <div className="p-6 pt-2">
-              <div className="bg-[#181a20] rounded-md p-6 border border-white/5 flex flex-col items-center justify-center min-h-[190px] relative overflow-hidden group-hover:bg-[#1b1e25] transition-colors">
-                {/* Background glow */}
-                <div className="absolute w-36 h-36 bg-brand-yellow/10 rounded-full blur-xl pointer-events-none" />
-
-                {/* Sleek Tumbler cylinder */}
-                <div className="w-16 h-32 rounded-2xl bg-gradient-to-b from-brand-yellow/25 via-brand-card to-black/70 border border-brand-yellow/40 flex items-center justify-center shadow-xl relative transition-transform duration-500 group-hover:scale-105 group-hover:border-brand-yellow">
-                  {/* Top LED ring */}
-                  <div className="absolute top-2 w-10 h-1 rounded-full bg-brand-yellow/80 shadow-[0_0_8px_rgba(245,176,39,0.8)]" />
-                  
-                  {/* Vertical branding text */}
-                  <span className="text-[10px] uppercase tracking-widest text-brand-yellow font-bold rotate-90 select-none">
-                    Tumbler
-                  </span>
-
-                  {/* Temperature sensor badge */}
-                  <div className="absolute bottom-2 text-[9px] font-mono text-white/70">
-                    64°F
+                    <div className="grid grid-cols-3 gap-2.5 text-center">
+                      <div className="bg-brand-card rounded p-2.5 border border-white/5">
+                        <span className="text-[9px] text-brand-muted block font-mono">CATÁLOGO</span>
+                        <span className="text-xs font-bold text-brand-yellow mt-0.5 block">1,500+ SKU</span>
+                      </div>
+                      <div className="bg-brand-card rounded p-2.5 border border-white/5">
+                        <span className="text-[9px] text-brand-muted block font-mono">LATENCIA</span>
+                        <span className="text-xs font-bold text-emerald-400 mt-0.5 block">&lt; 0.8s</span>
+                      </div>
+                      <div className="bg-brand-card rounded p-2.5 border border-white/5">
+                        <span className="text-[9px] text-brand-muted block font-mono">CONVERSIÓN</span>
+                        <span className="text-xs font-bold text-white mt-0.5 block">+42%</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
+              </motion.div>
 
-        {/* Additional Works Section (when filtered or exploring more) */}
-        {activeTab !== 'all' && (
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-brand-border/40">
-            {filteredProjects.map((project) => (
-              <div
-                key={project.id}
-                onClick={() => onProjectClick(project)}
-                className="bg-brand-surface p-6 rounded-lg border border-brand-border hover:border-brand-yellow transition-all cursor-pointer flex justify-between items-center group"
+              {/* Featured 2: VicJobFinder (Automation Suite) (5 cols) */}
+              <motion.div
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.35, delay: 0.1 }}
+                onClick={() => onProjectClick(vicJobProject)}
+                className="lg:col-span-5 bg-brand-card border border-brand-border hover:border-brand-yellow/70 rounded-xl overflow-hidden group cursor-pointer flex flex-col justify-between hover:shadow-2xl hover:shadow-black/70 transition-colors"
               >
-                <div>
-                  <span className="text-[11px] font-semibold text-brand-muted uppercase">
-                    {project.category}
-                  </span>
-                  <h4 className="text-xl font-bold text-white group-hover:text-brand-yellow transition-colors mt-0.5">
-                    {project.title}
-                  </h4>
-                  <p className="text-xs text-brand-muted mt-1">{project.description}</p>
+                <div className="p-7 pb-3 flex justify-between items-start">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[10px] bg-sky-500/15 text-sky-400 border border-sky-500/30 px-2 py-0.5 rounded font-mono font-bold">
+                        DESTACADO
+                      </span>
+                      <span className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
+                        {vicJobProject.category}
+                      </span>
+                    </div>
+                    <h3 className="text-2xl font-bold text-white group-hover:text-brand-yellow transition-colors">
+                      {vicJobProject.title}
+                    </h3>
+                    <p className="text-xs text-brand-muted mt-1 leading-relaxed">
+                      {vicJobProject.description}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    {vicJobProject.githubUrl && (
+                      <a
+                        href={vicJobProject.githubUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="p-2 rounded-full bg-white/5 border border-white/10 text-brand-muted hover:text-brand-yellow hover:border-brand-yellow/40 transition-colors"
+                        title="Ver repositorio en GitHub"
+                      >
+                        <Github className="w-4 h-4" />
+                      </a>
+                    )}
+                    <span className="text-brand-muted group-hover:text-brand-yellow group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all">
+                      <ArrowUpRight className="w-5 h-5" />
+                    </span>
+                  </div>
                 </div>
-                <span className="text-brand-yellow group-hover:translate-x-1 transition-transform">
-                  →
-                </span>
-              </div>
-            ))}
+
+                {/* Bot Terminal Simulation */}
+                <div className="p-6 pt-2">
+                  <div className="bg-[#101217] rounded-lg p-4 border border-white/5 font-mono text-xs space-y-2.5">
+                    <div className="flex items-center justify-between text-[11px] pb-2 border-b border-white/5">
+                      <div className="flex items-center gap-1.5 text-sky-400">
+                        <Terminal className="w-3.5 h-3.5" />
+                        <span>python job_daemon.py</span>
+                      </div>
+                      <span className="text-emerald-400 text-[10px] flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        {botActive ? 'Activo' : 'Pausado'}
+                      </span>
+                    </div>
+
+                    <div className="space-y-1 text-[11px]">
+                      <p className="text-brand-muted">
+                        <span className="text-brand-yellow">&gt;</span> Indexando LinkedIn &amp; Dev Portals...
+                      </p>
+                      <p className="text-white font-bold">
+                        <span className="text-emerald-400">&gt;</span> Vacantes filtradas: {vacantesFound.toLocaleString()}
+                      </p>
+                    </div>
+
+                    <button
+                      onClick={handleSimulateBot}
+                      className="w-full py-1.5 bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 border border-sky-500/30 rounded text-[11px] font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer mt-1"
+                    >
+                      <Cpu className="w-3.5 h-3.5" />
+                      <span>Ejecutar escaneo en vivo (+alertas)</span>
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Featured 3: SealPro Industrial (Full 12 cols banner) */}
+              <motion.div
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.35, delay: 0.15 }}
+                onClick={() => onProjectClick(sealProProject)}
+                className="lg:col-span-12 bg-gradient-to-r from-brand-card via-[#1c1f26] to-brand-card border border-brand-border hover:border-brand-yellow/70 rounded-xl p-7 group cursor-pointer hover:shadow-2xl hover:shadow-black/70 transition-colors"
+              >
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                  <div className="space-y-2 max-w-2xl">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded font-mono font-bold">
+                        DESTACADO
+                      </span>
+                      <span className="text-xs font-semibold uppercase tracking-wider text-brand-muted font-mono">
+                        {sealProProject.category}
+                      </span>
+                    </div>
+                    <h3 className="text-2xl font-bold text-white group-hover:text-brand-yellow transition-colors flex items-center gap-2">
+                      <span>{sealProProject.title}</span>
+                      <ArrowUpRight className="w-5 h-5 text-brand-muted group-hover:text-brand-yellow group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                    </h3>
+                    <p className="text-xs text-brand-muted leading-relaxed">
+                      {sealProProject.longDescription || sealProProject.description}
+                    </p>
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {sealProProject.tags.map((t) => (
+                        <span key={t} className="text-[10px] bg-brand-surface text-brand-muted px-2 py-0.5 rounded border border-white/5">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap sm:flex-nowrap items-center gap-4 shrink-0">
+                    <div className="grid grid-cols-2 gap-3 text-center w-full sm:w-auto">
+                      <div className="bg-brand-surface px-4 py-3 rounded-lg border border-brand-yellow/30">
+                        <span className="text-[10px] text-brand-muted block font-mono">LIGHTHOUSE</span>
+                        <span className="text-xl font-extrabold text-brand-yellow">100/100</span>
+                      </div>
+                      <div className="bg-brand-surface px-4 py-3 rounded-lg border border-emerald-500/30">
+                        <span className="text-[10px] text-brand-muted block font-mono">LEADS B2B</span>
+                        <span className="text-xl font-extrabold text-emerald-400">+58%</span>
+                      </div>
+                    </div>
+
+                    {sealProProject.githubUrl && (
+                      <a
+                        href={sealProProject.githubUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="p-3 rounded-lg bg-white/5 border border-white/10 text-brand-muted hover:text-brand-yellow hover:border-brand-yellow/40 transition-colors flex items-center gap-2 text-xs font-semibold"
+                        title="Ver repositorio en GitHub"
+                      >
+                        <Github className="w-4 h-4" />
+                        <span className="hidden sm:inline">GitHub</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
         )}
+
+        {/* 📋 Galería General de Proyectos con Animaciones Fluidas */}
+        <div>
+          <div className="flex items-center justify-between mb-6">
+            <span className="text-xs uppercase tracking-wider font-mono text-brand-muted">
+              {activeTab === 'all'
+                ? `Todos los Repositorios y Sistemas (${filteredProjects.length})`
+                : `Categoría: ${tabConfig.find((t) => t.id === activeTab)?.label} (${filteredProjects.length})`}
+            </span>
+          </div>
+
+          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <AnimatePresence mode="popLayout">
+              {filteredProjects.map((project) => (
+                <motion.div
+                  layout
+                  key={project.id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  whileHover={{ y: -6 }}
+                  transition={{ duration: 0.28 }}
+                  onClick={() => onProjectClick(project)}
+                  className="bg-brand-card hover:bg-brand-card-hover p-6 rounded-xl border border-brand-border hover:border-brand-yellow/60 cursor-pointer flex flex-col justify-between group hover:shadow-2xl transition-colors"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-2.5">
+                      <span className="text-[10px] font-semibold text-brand-yellow uppercase tracking-wider font-mono">
+                        {project.category}
+                      </span>
+                      <div className="flex items-center gap-1.5">
+                        {project.demoUrl && (
+                          <a
+                            href={project.demoUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="inline-flex items-center gap-1 text-[10px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded font-mono hover:bg-emerald-500/25 transition-colors"
+                            title="Abrir demo en vivo"
+                          >
+                            <ExternalLink className="w-2.5 h-2.5" />
+                            <span>Vercel Live</span>
+                          </a>
+                        )}
+                        {project.githubUrl && (
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-brand-muted hover:text-brand-yellow transition-colors p-1"
+                            title="Ver código en GitHub"
+                          >
+                            <Github className="w-3.5 h-3.5" />
+                          </a>
+                        )}
+                        <ArrowUpRight className="w-4 h-4 text-brand-muted group-hover:text-brand-yellow transition-colors" />
+                      </div>
+                    </div>
+
+                    <h4 className="text-lg font-bold text-white group-hover:text-brand-yellow transition-colors">
+                      {project.title}
+                    </h4>
+                    <p className="text-xs text-brand-muted mt-1.5 leading-relaxed line-clamp-3">
+                      {project.description}
+                    </p>
+                  </div>
+
+                  <div className="mt-6 pt-4 border-t border-white/5 space-y-2.5">
+                    {project.metrics && project.metrics.length > 0 && (
+                      <div className="flex items-center gap-2 text-[10px] text-brand-muted">
+                        <span className="text-brand-yellow font-bold">{project.metrics[0].value}</span>
+                        <span>• {project.metrics[0].label}</span>
+                      </div>
+                    )}
+
+                    <div className="flex flex-wrap gap-1.5">
+                      {project.tags.slice(0, 3).map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-[10px] bg-brand-surface text-brand-muted px-2 py-0.5 rounded border border-white/5"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

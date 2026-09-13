@@ -1,4 +1,6 @@
 import React from 'react';
+import { Code2, ShoppingCart, Bot } from 'lucide-react';
+import { motion } from 'motion/react';
 import { SPECIALTIES } from '../data/portfolioData';
 import { ServiceSpecialty } from '../types';
 
@@ -14,150 +16,92 @@ export const Specialties: React.FC<SpecialtiesProps> = ({
   return (
     <section
       id="services"
-      className="py-16 bg-brand-surface border-b border-brand-border"
+      className="py-16 bg-brand-surface border-b border-brand-border relative"
       data-purpose="specialties-cards"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4"
+        >
+          <div>
+            <span className="text-xs font-semibold uppercase tracking-widest text-brand-yellow block mb-2">
+              — Áreas de Especialidad
+            </span>
+            <h3 className="text-2xl lg:text-3xl font-bold text-white tracking-tight">
+              Ingeniería de software con enfoque en resultados.
+            </h3>
+          </div>
+          <p className="text-brand-muted text-xs md:text-sm max-w-md">
+            Soluciones adaptadas para escalar negocios, desde tiendas online de gran catálogo hasta sistemas de automatización complejos.
+          </p>
+        </motion.div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {SPECIALTIES.map((spec: ServiceSpecialty) => {
+          {SPECIALTIES.map((spec: ServiceSpecialty, idx: number) => {
             const isSelected = selectedSpecialtyId === spec.id;
 
-            if (isSelected) {
-              return (
-                <button
-                  key={spec.id}
-                  id={`service-card-${spec.id}`}
-                  onClick={() => onSelectSpecialty(spec.id)}
-                  className="bg-brand-yellow text-brand-dark p-8 rounded-sm shadow-xl flex flex-col justify-between h-72 text-left transition-all duration-300 hover:-translate-y-1.5 focus:outline-none focus:ring-4 focus:ring-brand-yellow/40 cursor-pointer relative group"
-                >
-                  {/* Icon Top */}
-                  <div className="w-10 h-10 border border-brand-dark/30 rounded flex items-center justify-center transition-transform group-hover:scale-110">
-                    {spec.icon === 'product' && (
-                      <svg
-                        className="w-5 h-5 text-brand-dark"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    )}
-                    {spec.icon === 'brand' && (
-                      <svg
-                        className="w-5 h-5 text-brand-dark"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    )}
-                    {spec.icon === 'code' && (
-                      <svg
-                        className="w-5 h-5 text-brand-dark"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    )}
-                  </div>
-
-                  {/* Label and Count */}
-                  <div>
-                    <h4 className="text-2xl font-bold leading-tight whitespace-pre-line">
-                      {spec.title.replace(' ', '\n')}
-                    </h4>
-                    <p className="text-xs font-semibold text-brand-dark/70 mt-2">
-                      {spec.projectsCount} Projects
-                    </p>
-                  </div>
-                </button>
-              );
-            }
-
             return (
-              <button
+              <motion.button
                 key={spec.id}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.15 }}
+                whileHover={{ y: -6 }}
+                whileTap={{ scale: 0.98 }}
                 id={`service-card-${spec.id}`}
                 onClick={() => onSelectSpecialty(spec.id)}
-                className="bg-brand-card hover:bg-brand-card-hover border border-brand-border p-8 rounded-sm transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between h-72 text-left group focus:outline-none focus:ring-2 focus:ring-brand-yellow/40 cursor-pointer"
+                className={`p-8 rounded-xl transition-all duration-300 flex flex-col justify-between min-h-[280px] text-left cursor-pointer relative group border ${
+                  isSelected
+                    ? 'bg-gradient-to-br from-brand-card via-[#242936] to-[#1c202a] border-brand-yellow shadow-xl shadow-brand-yellow/15'
+                    : 'bg-brand-card hover:bg-brand-card-hover border-brand-border hover:border-brand-yellow/50'
+                }`}
               >
-                {/* Icon Top */}
-                <div className="w-10 h-10 border border-white/15 rounded flex items-center justify-center text-brand-muted group-hover:text-brand-yellow group-hover:border-brand-yellow transition-all duration-300 group-hover:scale-110">
-                  {spec.icon === 'product' && (
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  )}
-                  {spec.icon === 'brand' && (
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  )}
-                  {spec.icon === 'code' && (
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  )}
+                {/* Top Row: Icon & Status */}
+                <div className="flex items-center justify-between">
+                  <motion.div
+                    whileHover={{ rotate: [0, -10, 10, 0] }}
+                    transition={{ duration: 0.5 }}
+                    className={`w-12 h-12 rounded-lg flex items-center justify-center transition-transform ${
+                      isSelected
+                        ? 'bg-brand-yellow text-brand-dark shadow-md shadow-brand-yellow/30'
+                        : 'bg-white/5 text-brand-muted border border-white/10 group-hover:text-brand-yellow group-hover:border-brand-yellow/40'
+                    }`}
+                  >
+                    {spec.icon === 'code' && <Code2 className="w-6 h-6" />}
+                    {spec.icon === 'product' && <ShoppingCart className="w-6 h-6" />}
+                    {spec.icon === 'brand' && <Bot className="w-6 h-6" />}
+                  </motion.div>
+
+                  <span className="text-xs font-mono font-bold text-brand-muted group-hover:text-brand-yellow transition-colors">
+                    {spec.projectsCount}+ Proyectos
+                  </span>
                 </div>
 
-                {/* Label and Count */}
-                <div>
-                  <h4 className="text-2xl font-bold text-white leading-tight whitespace-pre-line group-hover:text-brand-yellow transition-colors">
-                    {spec.title.replace(' ', '\n')}
+                {/* Content */}
+                <div className="mt-6">
+                  <h4 className="text-xl font-bold text-white group-hover:text-brand-yellow transition-colors">
+                    {spec.title}
                   </h4>
-                  <p className="text-xs font-semibold text-brand-muted mt-2">
-                    {spec.projectsCount} Projects
+                  <p className="text-xs text-brand-muted leading-relaxed mt-2.5">
+                    {spec.description}
                   </p>
                 </div>
-              </button>
+
+                {/* Bottom Highlight Line */}
+                <div className="w-full pt-4 mt-2 border-t border-white/5 flex items-center justify-between text-xs">
+                  <span className={isSelected ? 'text-brand-yellow font-semibold' : 'text-brand-muted'}>
+                    {isSelected ? 'Especialidad Seleccionada' : 'Click para enfocar'}
+                  </span>
+                  <span className="text-brand-yellow group-hover:translate-x-1.5 transition-transform">
+                    →
+                  </span>
+                </div>
+              </motion.button>
             );
           })}
         </div>
